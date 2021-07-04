@@ -2,10 +2,14 @@
     "name": "com.bridge.app.content.manager",
     "version": "1.0.0",
     "displayName": "3ridge App Content Manager",
-    "description": "Manages the app's content loading.",
+    "description": "Manages the loading of contents and the loading screen.",
     "unity": "2019.1",
     "unityRelease": "0b5",
     "dependencies": {
+      "com.bridge.debugger": "1.0.0",
+      "com.bridge.events.manager": "1.0.0",
+      "com.unity.addressables": "1.0.0",
+      "com.unity.resourcemanager": "1.0.0"
    },
    "keywords": [
       "Bridge",
