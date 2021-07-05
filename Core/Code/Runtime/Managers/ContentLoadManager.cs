@@ -5,7 +5,7 @@ using UnityEngine;
 using Bridge.Core.Debug;
 using Bridge.Core.Events;
 
-namespace Bridge.Core.Contents
+namespace Bridge.Core.App.Content.Manager
 {
     public class ContentLoadManager : MonoDebug
     {

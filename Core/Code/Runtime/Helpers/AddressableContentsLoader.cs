@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.AddressableAssets;
 
-namespace Bridge.Core.Contents
+namespace Bridge.Core.App.Content.Manager
 {
     public static class AddressableContentsLoader
     {

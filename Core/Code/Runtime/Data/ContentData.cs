@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bridge.Core.Contents
+namespace Bridge.Core.App.Content.Manager
 {
     public class ContentData
     {
