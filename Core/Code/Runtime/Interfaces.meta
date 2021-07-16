@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 52a2df9bff0b26949800adb61cebf6d1
+=======
+<<<<<<< HEAD:Core/Code/Editor/Windows.meta
+guid: a586ad42d572bd346b20adae1c1015c2
+=======
+guid: 52a2df9bff0b26949800adb61cebf6d1
+>>>>>>> 36f5806b4be4cd51f14387c281d02ad4a9f150fe:Core/Code/Runtime/Interfaces.meta
+>>>>>>> 36f5806b4be4cd51f14387c281d02ad4a9f150fe
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

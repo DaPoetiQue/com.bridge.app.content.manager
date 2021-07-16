@@ -7,6 +7,12 @@ namespace Bridge.Core.App.Content.Manager
     {
         #region Components
 
+<<<<<<< HEAD
+=======
+        [SerializeField]
+        private readonly new ScreenType type;
+
+>>>>>>> 36f5806b4be4cd51f14387c281d02ad4a9f150fe
         #endregion
     }
 }

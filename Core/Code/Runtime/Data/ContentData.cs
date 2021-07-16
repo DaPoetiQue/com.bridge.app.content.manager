@@ -38,7 +38,11 @@ namespace Bridge.Core.App.Content.Manager
         public GameObject prefab;
 
         [Space(5)]
+<<<<<<< HEAD
         public ContentType contentType;
+=======
+        public ContentType type;
+>>>>>>> 36f5806b4be4cd51f14387c281d02ad4a9f150fe
 
         [Space(5)]
         public bool enableOnLoad;
