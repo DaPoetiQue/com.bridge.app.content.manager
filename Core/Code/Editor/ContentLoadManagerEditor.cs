@@ -1,6 +1,7 @@
 using UnityEditor;
+using Bridge.Core.App.Content.Manager;
 
-namespace Bridge.Core.App.Content.Manager
+namespace Bridge.Core.UnityEditor.Content.Manager
 {
     public class ContentLoadManagerEditor : Editor
     {

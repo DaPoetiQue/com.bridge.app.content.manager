@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.AddressableAssets;
+using UnityEngine;
 
 namespace Bridge.Core.App.Content.Manager
 {
@@ -19,13 +19,13 @@ namespace Bridge.Core.App.Content.Manager
             }
         }
 
-        public static async Task LoadAssetsFromLocations<T>(IList<IResourceLocation> resourceLocation, List<T> prefabs) where T : Object
+        public static async Task LoadAssetsFromLocations<T>(IList<IResourceLocation> resourceLocation, List<T> content) where T : Object
         {
             foreach (var _Location in resourceLocation)
             {
-                prefabs.Add(await Addressables.InstantiateAsync(_Location).Task as T);
+                content.Add(await Addressables.LoadAssetAsync<T>(_Location).Task as T);
             }
-        }
+        } 
 
         #endregion
     }
