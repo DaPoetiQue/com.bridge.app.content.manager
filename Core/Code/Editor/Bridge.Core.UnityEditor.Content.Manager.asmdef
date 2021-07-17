@@ -1,14 +1,12 @@
 {
-    "name": "Bridge.Core.App.Content.Editor",
-    "rootNamespace": "Bridge.Core.App.Content.Editor",
+    "name": "Bridge.Core.UnityEditor.Content.Manager",
+    "rootNamespace": "Bridge.Core.UnityEditor.Content.Manager",
     "references": [
         "GUID:5ef81270e65190e4babbe8d8e6e466c5",
         "GUID:3b0fa62fe7414834c9712d5ea4909a4b"
     ],
     "includePlatforms": [
-        "Editor",
-        "macOSStandalone",
-        "WindowsStandalone64"
+        "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

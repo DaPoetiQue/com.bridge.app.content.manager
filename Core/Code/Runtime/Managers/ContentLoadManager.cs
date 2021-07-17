@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine;
 using Bridge.Core.Debug;
-using Bridge.Core.Events;
+using Bridge.Core.App.Events;
 
 namespace Bridge.Core.App.Content.Manager
 {
@@ -12,7 +12,7 @@ namespace Bridge.Core.App.Content.Manager
         #region  Components
 
         [SerializeField]
-        private ContentData.ContentLoader contentLoader = new ContentData.ContentLoader();
+        private ContentLoader contentLoader = new ContentLoader();
 
          [Space(3)]
         [SerializeField]
@@ -65,25 +65,25 @@ namespace Bridge.Core.App.Content.Manager
             {
                 switch(contentLoader.loadType)
                 {
-                    case ContentData.LoadType.Addressables:
+                    case LoadType.Addressables:
 
                     LoadAddressablesContent();
 
                     break;
 
-                    case ContentData.LoadType.Inspector:
+                    case LoadType.Inspector:
 
                     StartCoroutine(OnLoadInspectorContent(appView));
 
                     break;
 
-                    case ContentData.LoadType.Resources:
+                    case LoadType.Resources:
 
                     StartCoroutine(OnLoadResourcesContent(appView));
 
                     break;
 
-                    case ContentData.LoadType.StreamingAssets:
+                    case LoadType.StreamingAssets:
 
                     StartCoroutine(OnLoadStreamingAssetsContent(appView));
 
@@ -101,13 +101,15 @@ namespace Bridge.Core.App.Content.Manager
 
         private async void LoadAddressablesContent()
         {
-            if(contentLoader.addressablesLoader.Count <= 0)
+            if (isAppContentLoaded) return;
+
+            if (contentLoader.addressablesLoader.Count <= 0)
             {
                 Log(LogData.LogLevel.Error, this, $"Content loader for [ Addressables Loader ] not created/assigned in the inspector. Create and assign a loader.");
                 return;
             }
 
-            foreach(ContentData.AddressablesLoader loader in contentLoader.addressablesLoader)
+            foreach(AddressablesLoader loader in contentLoader.addressablesLoader)
             {
                 if(string.IsNullOrEmpty(loader.label))
                 {
@@ -125,7 +127,7 @@ namespace Bridge.Core.App.Content.Manager
                     Log(LogData.LogLevel.Debug, this, $"A content container has been created successfully for : [ {loaderName} ].");
                 }
 
-                List<GameObject> loadedContent = new List<GameObject>();
+                List<Content> loadedContent = new List<Content>();
 
                 await AddressableContentsLoader.GellAllAssetsLocations(loader.label, ResourceLocations);
                 await AddressableContentsLoader.LoadAssetsFromLocations(ResourceLocations, loadedContent);
@@ -138,12 +140,26 @@ namespace Bridge.Core.App.Content.Manager
 
                 loader.contentCount = loadedContent.Count;
 
-                foreach(GameObject prefab in loadedContent)
+                foreach(Content content in loadedContent)
                 {
-                    GameObject createdContent = Instantiate<GameObject>(prefab, loader.contentContainer);
-                    createdContent.name = prefab.name;
 
-                    createdContent.SetActive(loader.enableContentOnLoad);
+                    if(content?.prefab)
+                    {
+                        GameObject createdContent = Instantiate(content?.prefab, loader.contentContainer);
+                        createdContent.name = content.name;
+
+                        if (content.contentType == ContentType.SceneObject)
+                        {
+                            createdContent.AddComponent<SceneObject>();
+                        }
+
+                        if (content.contentType == ContentType.SceneUI)
+                        {
+                            createdContent.AddComponent<SceneUI>();
+                        }
+
+                        createdContent.SetActive(content.enableOnLoad);
+                    }
                 }
 
                 if(loader.contentContainer.childCount != loader.contentCount)
@@ -163,13 +179,15 @@ namespace Bridge.Core.App.Content.Manager
 
         private void LoadInspectorContent()
         {
+                if (isAppContentLoaded) return;
+
                 if(contentLoader.inspectorLoader.Count <= 0)
                 {
                     Log(LogData.LogLevel.Error, this, $"Content loader for [ Inspector Loader ] not created/assigned in the inspector. Create and assign a loader.");
                     return;
                 }
 
-                foreach(ContentData.InspectorLoader loader in contentLoader.inspectorLoader)
+                foreach(InspectorLoader loader in contentLoader.inspectorLoader)
                 {
                     if(loader.content.Count <= 0)
                     {
@@ -196,7 +214,7 @@ namespace Bridge.Core.App.Content.Manager
 
                         loader.contentCount = loader.content.Count;
 
-                        foreach(ContentData.Content content in loader.content)
+                        foreach(Content content in loader.content)
                         {
                             if(!content.prefab)
                             {
@@ -204,12 +222,23 @@ namespace Bridge.Core.App.Content.Manager
                                 return;
                             }
 
-                            GameObject createdContent = Instantiate<GameObject>(content.prefab, loader.contentContainer);
+                            GameObject createdContent = Instantiate(content.prefab, loader.contentContainer);
 
                             string contentName = (string.IsNullOrEmpty(content.nameTag))? content.nameTag : content.prefab.name;
                             createdContent.name = contentName;
 
-                            createdContent.SetActive(loader.enableContentOnLoad);
+                            if(content.contentType == ContentType.SceneObject)
+                            {
+                                createdContent.AddComponent<SceneObject>();
+                            }
+                            
+                            if(content.contentType == ContentType.SceneUI)
+                            {
+                                createdContent.AddComponent<SceneUI>();
+                            }
+
+                            createdContent.SetActive(content.enableOnLoad);
+                            
                         }
 
                         if(loader.contentContainer.childCount != loader.contentCount)
@@ -230,13 +259,15 @@ namespace Bridge.Core.App.Content.Manager
 
         private void LoadResourcesContent()
         {
-            if(contentLoader.resourcesLoader.Count <= 0)
+            if (isAppContentLoaded) return;
+
+            if (contentLoader.resourcesLoader.Count <= 0)
             {
                 Log(LogData.LogLevel.Error, this, $"Content loader for [ Resources Loader ] not created/assigned in the inspector. Create and assign a loader.");
                 return;
             }
 
-            foreach(ContentData.ResourcesLoader loader in contentLoader.resourcesLoader)
+            foreach(ResourcesLoader loader in contentLoader.resourcesLoader)
             {
                 if(string.IsNullOrEmpty(loader.path))
                 {
@@ -244,7 +275,7 @@ namespace Bridge.Core.App.Content.Manager
                     return;
                 }   
 
-                GameObject[] loadedContent = Resources.LoadAll<GameObject>(loader.path);
+                Content[] loadedContent = Resources.LoadAll<Content>(loader.path);
 
                 if(loadedContent.Length <= 0)
                 {
@@ -264,12 +295,22 @@ namespace Bridge.Core.App.Content.Manager
                     Log(LogData.LogLevel.Debug, this, $"A content container has been created successfully for : [ {loaderName} ].");
                 }    
 
-                foreach(GameObject prefab in loadedContent)
+                foreach(Content content in loadedContent)
                 {
-                    GameObject createdContent = Instantiate<GameObject>(prefab, loader.contentContainer);
-                    createdContent.name = prefab.name;
+                    GameObject createdContent = Instantiate<GameObject>(content.prefab, loader.contentContainer);
+                    createdContent.name = content.name;
 
-                    createdContent.SetActive(loader.enableContentOnLoad);
+                    if (content.contentType == ContentType.SceneObject)
+                    {
+                        createdContent.AddComponent<SceneObject>();
+                    }
+
+                    if (content.contentType == ContentType.SceneUI)
+                    {
+                        createdContent.AddComponent<SceneUI>();
+                    }
+
+                    createdContent.SetActive(content.enableOnLoad);
                 }    
 
                 if(loader.contentContainer.childCount != loader.contentCount)
