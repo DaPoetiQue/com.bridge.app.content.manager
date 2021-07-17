@@ -8,21 +8,37 @@ namespace Bridge.Core.App.Content.Manager
 
     public enum ContentType
     {
+<<<<<<< HEAD
         SceneObject = 0, SceneUI = 1
+=======
+        SceneObject, SceneUI
+>>>>>>> 107b66fe270f0597aba1222dac05d5b1ef666344
     }
 
     public enum LoadType
     {
+<<<<<<< HEAD
         Addressables = 0, Inspector = 1, Resources = 2, StreamingAssets = 3
     }
     public enum UIType
     {
         UIButton = 0, UIScreen = 1, UIScrollView = 2
+=======
+        Addressables, Inspector, Resources, StreamingAssets
+    }
+    public enum UIType
+    {
+        UIButton, UIScreen, UIScrollView
+>>>>>>> 107b66fe270f0597aba1222dac05d5b1ef666344
     }
 
     public enum ScreenType
     {
+<<<<<<< HEAD
         Loading = 0, Menu = 1, Scene = 2
+=======
+        Loading, Menu, Scene
+>>>>>>> 107b66fe270f0597aba1222dac05d5b1ef666344
     }
 
 
@@ -38,7 +54,15 @@ namespace Bridge.Core.App.Content.Manager
         public GameObject prefab;
 
         [Space(5)]
+<<<<<<< HEAD
         public ContentType contentType;
+=======
+<<<<<<< HEAD
+        public ContentType contentType;
+=======
+        public ContentType type;
+>>>>>>> 36f5806b4be4cd51f14387c281d02ad4a9f150fe
+>>>>>>> 107b66fe270f0597aba1222dac05d5b1ef666344
 
         [Space(5)]
         public bool enableOnLoad;
