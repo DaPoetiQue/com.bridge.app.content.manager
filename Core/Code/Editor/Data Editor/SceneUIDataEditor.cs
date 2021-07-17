@@ -34,7 +34,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
 
             if (GUILayout.Button("Open Content Editor", GUILayout.Height(25)))
             {
-                ContentCreatorEditorWindow.CreateContentLoadManagerWindow(content);
+                ContentCreatorEditorWindow.OpenContentCreatorWindow(content);
             }
         }
     }

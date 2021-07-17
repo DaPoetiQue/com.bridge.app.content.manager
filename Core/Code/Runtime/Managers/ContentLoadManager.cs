@@ -11,17 +11,16 @@ namespace Bridge.Core.App.Content.Manager
     {
         #region  Components
 
+        [Space(5)]
         [SerializeField]
+        private List<SceneContentLoader> sceneContentLoader;
+
         private ContentLoader contentLoader = new ContentLoader();
 
-         [Space(3)]
-        [SerializeField]
         private float minLoadTimeOut = 2.0f, maxLoadTimeOut = 4.0f;
 
         private float timeOut = 0.0f;
 
-        [Space(3)]
-        [SerializeField]
         private AppEventsData.AppViewState initialAppView;
 
         public IList<IResourceLocation> ResourceLocations = new List<IResourceLocation>();

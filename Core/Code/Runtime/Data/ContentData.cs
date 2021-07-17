@@ -15,6 +15,12 @@ namespace Bridge.Core.App.Content.Manager
     {
         Addressables = 0, Inspector = 1, Resources = 2, StreamingAssets = 3
     }
+
+    public enum RuntimePlatform
+    {
+        Any, Android, iOS, MacOSStandalone, WindowsStandalone, Editor
+    }
+
     public enum UIType
     {
         UIButton = 0, UIScreen = 1, UIScrollView = 2
@@ -42,6 +48,17 @@ namespace Bridge.Core.App.Content.Manager
 
         [Space(5)]
         public bool enableOnLoad;
+    }
+
+    public class SceneContentLoader : ScriptableObject
+    {
+        public string nameTag;
+
+        [Space(5)]
+        public LoadType loadType;
+
+        [Space(5)]
+        public RuntimePlatform platform;
     }
 
     #endregion
@@ -83,8 +100,6 @@ namespace Bridge.Core.App.Content.Manager
     #endregion
 
     #endregion
-
-
 
     #region Content Loader Data
 

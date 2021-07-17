@@ -8,14 +8,14 @@ namespace Bridge.Core.UnityEditor.Content.Manager
     {
         #region Window Initialization
 
-        [MenuItem("3ridge/Create/Content")]
-        private static void CreateContentLoadManagerWindow()
+        [MenuItem("3ridge/Editor/Content Creator")]
+        private static void OpenContentCreatorWindow()
         {
             ContentCreatorEditorWindow window = GetWindow<ContentCreatorEditorWindow>("3ridge Content Creator");
             window.minSize = new Vector2(400.0f, 450.0f);
         }
 
-        public static void CreateContentLoadManagerWindow(SceneObjectData sceneObjectData)
+        public static void OpenContentCreatorWindow(SceneObjectData sceneObjectData)
         {
             ContentCreatorEditorWindow window = GetWindow<ContentCreatorEditorWindow>("3ridge Content Creator");
             window.minSize = new Vector2(400.0f, 450.0f);
@@ -23,7 +23,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             UpdateWindowToSelectedContent(sceneObjectData);
         }
 
-        public static void CreateContentLoadManagerWindow(SceneUIData sceneUIData)
+        public static void OpenContentCreatorWindow(SceneUIData sceneUIData)
         {
             ContentCreatorEditorWindow window = GetWindow<ContentCreatorEditorWindow>("3ridge Content Creator");
             window.minSize = new Vector2(400.0f, 450.0f);
@@ -61,21 +61,18 @@ namespace Bridge.Core.UnityEditor.Content.Manager
 
         #endregion
 
+        #region Window Styles
+
+        private GUIStyle settingsHeaderStyle = new GUIStyle();
+        private GUIStyle settingContentStyle = new GUIStyle();
+
+        #endregion
+
         #endregion
 
         #region Window Content
 
         private GUIContent settingsHeaderContent = new GUIContent();
-
-
-
-        #endregion
-
-        #region Window Styles
-
-        private GUIStyle settingsHeaderStyle = new GUIStyle();
-        private GUIStyle settingContentStyle = new GUIStyle();
-        private GUIStyle settingsButtonStype = new GUIStyle();
 
         #endregion
 
@@ -232,10 +229,13 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         private void DrawSettingsLayout()
         {
             GUILayout.BeginArea(settingsSectionContentRect);
-
-            EditorGUILayout.BeginScrollView(settingsSectionContentRect.size);
-
             GUILayout.Space(25);
+
+            GUILayout.Label("This tool creates app scene content to be loadede at runtime.");
+            GUILayout.Space(15);
+
+            contentName = EditorGUILayout.TextField("Content Name", contentName);
+            GUILayout.Space(10);
 
             EditorGUILayout.BeginHorizontal();
             
@@ -243,9 +243,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
 
             EditorGUILayout.EndHorizontal();
 
-            GUILayout.Space(20);
-
-            contentName = EditorGUILayout.TextField("Content Name", contentName);
+            GUILayout.Space(40);
 
             switch (contentType)
             {
@@ -311,8 +309,6 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             }
 
             EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.EndScrollView();
 
             GUILayout.EndArea();
         }
@@ -386,9 +382,6 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             sceneUIData.contentType = contentType;
         }
 
-        /// <summary>
-        /// Clears the contents in the tool window.
-        /// </summary>
         private void ClearContent(ContentType contentType)
         {
 
@@ -422,11 +415,6 @@ namespace Bridge.Core.UnityEditor.Content.Manager
 
                     break;
             }
-        }
-
-        private void UpdateContent(ContentType contentType)
-        {
-            
         }
 
         #endregion
