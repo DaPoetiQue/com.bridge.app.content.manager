@@ -12,13 +12,13 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         private static void CreateContentLoadManagerWindow()
         {
             ContentCreatorEditorWindow window = GetWindow<ContentCreatorEditorWindow>("3ridge Content Creator");
-            window.minSize = new Vector2(400.0f, 300.0f);
+            window.minSize = new Vector2(400.0f, 450.0f);
         }
 
         public static void CreateContentLoadManagerWindow(SceneObjectData sceneObjectData)
         {
             ContentCreatorEditorWindow window = GetWindow<ContentCreatorEditorWindow>("3ridge Content Creator");
-            window.minSize = new Vector2(400.0f, 300.0f);
+            window.minSize = new Vector2(400.0f, 450.0f);
 
             UpdateWindowToSelectedContent(sceneObjectData);
         }
@@ -26,7 +26,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         public static void CreateContentLoadManagerWindow(SceneUIData sceneUIData)
         {
             ContentCreatorEditorWindow window = GetWindow<ContentCreatorEditorWindow>("3ridge Content Creator");
-            window.minSize = new Vector2(400.0f, 300.0f);
+            window.minSize = new Vector2(400.0f, 450.0f);
 
             UpdateWindowToSelectedContent(sceneUIData);
         }
@@ -233,6 +233,8 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         {
             GUILayout.BeginArea(settingsSectionContentRect);
 
+            EditorGUILayout.BeginScrollView(settingsSectionContentRect.size);
+
             GUILayout.Space(25);
 
             EditorGUILayout.BeginHorizontal();
@@ -251,8 +253,28 @@ namespace Bridge.Core.UnityEditor.Content.Manager
 
                     sceneObjectData.nameTag = contentName;
                     GUILayout.Space(10);
+
                     sceneObjectData.prefab = EditorGUILayout.ObjectField("Object Prefab", sceneObjectData.prefab, typeof(GameObject), false) as GameObject;
                     GUILayout.Space(10);
+
+                    SerializedObject serializedObject = new SerializedObject(sceneObjectData);
+                    SerializedProperty serializedProperty = serializedObject.FindProperty("contentDescription");
+                    EditorGUILayout.PropertyField(serializedProperty, true);
+                    serializedObject.ApplyModifiedProperties();
+                    GUILayout.Space(5);
+
+                    sceneObjectData.interactable = EditorGUILayout.Toggle("Interactable", sceneObjectData.interactable);
+                    GUILayout.Space(5);
+
+                    if (sceneObjectData.interactable)
+                    {
+                        SerializedObject serializedObjectInteractions = new SerializedObject(sceneObjectData);
+                        SerializedProperty serializedPropertyInteractions = serializedObjectInteractions.FindProperty("interactionData");
+                        EditorGUILayout.PropertyField(serializedPropertyInteractions, true);
+                        serializedObjectInteractions.ApplyModifiedProperties();
+                        GUILayout.Space(5);
+                    }
+
                     sceneObjectData.enableOnLoad = EditorGUILayout.Toggle("Enable Content On Load", sceneObjectData.enableOnLoad);
                     sceneObjectData.contentType = contentType;
 
@@ -289,6 +311,8 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             }
 
             EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.EndScrollView();
 
             GUILayout.EndArea();
         }
@@ -334,6 +358,18 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             contentName = EditorGUILayout.TextField("Content Name", objectData.nameTag);
 
             sceneObjectData.prefab = EditorGUILayout.ObjectField("Object Prefab", objectData.prefab, typeof(GameObject), false) as GameObject;
+            GUILayout.Space(5);
+
+            sceneObjectData.contentDescription = objectData.contentDescription;
+            GUILayout.Space(5);
+
+            sceneObjectData.interactable = objectData.interactable;
+            sceneObjectData.interactionData = objectData.interactionData;
+            GUILayout.Space(5);
+
+            sceneObjectData.interactable = EditorGUILayout.Toggle("Interactable", sceneObjectData.interactable);
+            GUILayout.Space(5);
+
             sceneObjectData.enableOnLoad = EditorGUILayout.Toggle("Enable Content On Load", objectData.enableOnLoad);
             sceneObjectData.contentType = contentType;
         }

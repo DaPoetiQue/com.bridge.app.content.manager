@@ -10,13 +10,16 @@ namespace Bridge.Core.UnityEditor.Content.Manager
     {
         public override void OnInspectorGUI()
         {
+            GUILayout.Label("Scene UI");
+            GUILayout.Space(5);
+
             SceneUIData content = (SceneUIData)target;
 
             string name = (string.IsNullOrEmpty(content.nameTag)) ? content.name : content.nameTag;
             content.nameTag = EditorGUILayout.TextField("Content Name", name);
             GUILayout.Space(5);
 
-            content.prefab = EditorGUILayout.ObjectField("UI Prefab", content.prefab, typeof(GameObject), false) as GameObject;
+            content.prefab = EditorGUILayout.ObjectField("Content Prefab", content.prefab, typeof(GameObject), false) as GameObject;
             GUILayout.Space(5);
 
             content.uiType = (UIType)EditorGUILayout.EnumPopup("UI Type", UIType.UIButton);

@@ -148,7 +148,6 @@ namespace Bridge.Core.App.Content.Manager
                         GameObject createdContent = Instantiate(content?.prefab, loader.contentContainer);
                         createdContent.name = content.name;
 
-<<<<<<< HEAD
                         if (content.contentType == ContentType.SceneObject)
                         {
                             createdContent.AddComponent<SceneObject>();
@@ -159,8 +158,6 @@ namespace Bridge.Core.App.Content.Manager
                             createdContent.AddComponent<SceneUI>();
                         }
 
-=======
->>>>>>> 107b66fe270f0597aba1222dac05d5b1ef666344
                         createdContent.SetActive(content.enableOnLoad);
                     }
                 }
@@ -230,7 +227,6 @@ namespace Bridge.Core.App.Content.Manager
                             string contentName = (string.IsNullOrEmpty(content.nameTag))? content.nameTag : content.prefab.name;
                             createdContent.name = contentName;
 
-<<<<<<< HEAD
                             if(content.contentType == ContentType.SceneObject)
                             {
                                 createdContent.AddComponent<SceneObject>();
@@ -243,9 +239,6 @@ namespace Bridge.Core.App.Content.Manager
 
                             createdContent.SetActive(content.enableOnLoad);
                             
-=======
-                            createdContent.SetActive(content.enableOnLoad);
->>>>>>> 107b66fe270f0597aba1222dac05d5b1ef666344
                         }
 
                         if(loader.contentContainer.childCount != loader.contentCount)
@@ -306,7 +299,6 @@ namespace Bridge.Core.App.Content.Manager
                 {
                     GameObject createdContent = Instantiate<GameObject>(content.prefab, loader.contentContainer);
                     createdContent.name = content.name;
-<<<<<<< HEAD
 
                     if (content.contentType == ContentType.SceneObject)
                     {
@@ -317,8 +309,6 @@ namespace Bridge.Core.App.Content.Manager
                     {
                         createdContent.AddComponent<SceneUI>();
                     }
-=======
->>>>>>> 107b66fe270f0597aba1222dac05d5b1ef666344
 
                     createdContent.SetActive(content.enableOnLoad);
                 }    
