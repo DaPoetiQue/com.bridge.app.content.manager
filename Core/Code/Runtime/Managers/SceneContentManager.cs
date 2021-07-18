@@ -5,6 +5,7 @@ using UnityEngine;
 using Bridge.Core.Debug;
 using Bridge.Core.App.Events;
 using System;
+using System.Threading.Tasks;
 
 namespace Bridge.Core.App.Content.Manager
 {
@@ -19,6 +20,8 @@ namespace Bridge.Core.App.Content.Manager
         [Space(5)]
         [SerializeField]
         private List<SceneContentLoader> sceneContentLoader = new List<SceneContentLoader>();
+        private int sceneContentCount = 0;
+        private List<SceneContentGroup> loadedSceneContentGroups = new List<SceneContentGroup>();
 
         private bool isLoadingContentData;
 
@@ -62,10 +65,13 @@ namespace Bridge.Core.App.Content.Manager
         {
             if (sceneContentLoader.Count <= 0) return;
 
-            LoadContentData(initialAppView);
+            LoadContentData(initialAppView, success => 
+            {
+                Log(LogData.LogLevel.Success, this, $"Scene content load completed : {sceneContentCount} content(s) found.");
+            });
         }
 
-        private void LoadContentData(AppEventsData.AppViewState appView)
+        private void LoadContentData(AppEventsData.AppViewState appView, Action<bool> contentLoaded)
         {
             foreach (SceneContentLoader loader in sceneContentLoader)
             {
@@ -83,15 +89,23 @@ namespace Bridge.Core.App.Content.Manager
 
                             if(!loader.contentLoaded)
                             {
-                                LoadAddressablesData(loader.sceneContentGroup, (AddressablesLoaderData)loader.sceneContentLoadData, sceneContentLoader.IndexOf(loader), results =>
+                                LoadAddressablesData(loader.sceneContentGroup, (AddressablesLoaderData)loader.sceneContentLoadData, sceneContentLoader.IndexOf(loader), success =>
                                 {
-                                    Log(LogData.LogLevel.Success, this, $"[ {loader.nameTag} ] content load completed without an error.");
+                                    contentLoaded.Invoke(success);
                                 });
                             }
 
                             break;
 
                         case LoadType.Inspector:
+
+                            if (!loader.contentLoaded)
+                            {
+                                LoadInspectorData(loader.sceneContentGroup, (InspectorLoaderData)loader.sceneContentLoadData, sceneContentLoader.IndexOf(loader), success =>
+                                {
+                                    contentLoaded.Invoke(success);
+                                });
+                            }
 
                             break;
 
@@ -137,25 +151,7 @@ namespace Bridge.Core.App.Content.Manager
             {
                 if (content?.prefab)
                 {
-                    GameObject createdContent = Instantiate(content?.prefab, sceneContent.transform);
-                    createdContent.name = content.name;
-
-                    if (content.contentType == ContentType.SceneProp)
-                    {
-                        createdContent.AddComponent<SceneProp>();
-                    }
-
-                    if (content.contentType == ContentType.SceneUI)
-                    {
-                        createdContent.AddComponent<SceneUI>();
-                    }
-
-                    if(!sceneContent.loadedContent.Contains(createdContent.GetComponent<ObjectData>()))
-                    {
-                        sceneContent.loadedContent.Add(createdContent.GetComponent<ObjectData>());
-                    }
-
-                    createdContent.SetActive(content.enableOnLoad);
+                    await CreateSceneContent(content.name, content.contentType, sceneContent, content?.prefab, content.enableOnLoad);
                 }
             }
 
@@ -165,20 +161,72 @@ namespace Bridge.Core.App.Content.Manager
                 return;
             }
 
-            callBack.Invoke(true);
+            if(!loadedSceneContentGroups.Contains(sceneContent))
+            {
+                loadedSceneContentGroups.Add(sceneContent);
+                callBack.Invoke(true);
+            }
         }
 
-        private void LoadInspectorData()
+        private async void LoadInspectorData(SceneContentGroup sceneContent, InspectorLoaderData loaderData, int loaderQueueID, Action<bool> callBack)
+        {
+            sceneContent.loadedContent = new List<ObjectData>();
+
+            if(loaderData.ContentToLoad.Count <= 0)
+            {
+                Log(LogData.LogLevel.Error, this, $"[ Inspector Load Data ] There is no Content To Load data assigned in the inspector at index : {loaderQueueID}.");
+                return;
+            }
+
+            sceneContent.contentCount = loaderData.ContentToLoad.Count;
+
+            foreach (Content content in loaderData.ContentToLoad)
+            {
+                if (!content.prefab)
+                {
+                    Log(LogData.LogLevel.Error, this, $"[ {loaderData.nameTag} ] content prefab not assigned for loader at index : {loaderQueueID}.");
+                    return;
+                }
+
+                await CreateSceneContent(content.name, content.contentType, sceneContent, content?.prefab, content.enableOnLoad);
+            }
+
+            if (sceneContent.loadedContent.Count != sceneContent.contentCount)
+            {
+                Log(LogData.LogLevel.Warning, this, $"[ {loaderData.nameTag} ] content not fully loaded.");
+                return;
+            }
+
+            if (!loadedSceneContentGroups.Contains(sceneContent))
+            {
+                loadedSceneContentGroups.Add(sceneContent);
+                callBack.Invoke(true);
+            }
+        }
+
+        private async Task CreateSceneContent(string contentName, ContentType contentType, SceneContentGroup sceneContent, GameObject prefab, bool enabled)
+        {
+            GameObject createdContent = Instantiate(prefab, sceneContent.transform);
+            createdContent.name = contentName;
+
+            if (contentType == ContentType.SceneProp) createdContent.AddComponent<SceneProp>();
+            if (contentType == ContentType.SceneUI) createdContent.AddComponent<SceneUI>();
+
+            if (!sceneContent.loadedContent.Contains(createdContent.GetComponent<ObjectData>())) sceneContent.loadedContent.Add(createdContent.GetComponent<ObjectData>());
+
+            createdContent.SetActive(enabled);
+
+            sceneContentCount++;
+
+            await Task.Yield();
+        }
+
+        private void LoadResourcesData(SceneContentGroup sceneContent, ResourcesLoaderData loaderData, int loaderQueueID)
         {
 
         }
 
-        private void LoadResourcesData()
-        {
-
-        }
-
-        private void LoadStreamingData()
+        private void LoadStreamingData(SceneContentGroup sceneContent, StreamingAssetsLoaderData loaderData, int loaderQueueID)
         {
 
         }
