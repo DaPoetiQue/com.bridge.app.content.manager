@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Bridge.Core.Debug;
 
 namespace Bridge.Core.App.Content.Manager
 {
@@ -8,12 +9,17 @@ namespace Bridge.Core.App.Content.Manager
 
     public enum ContentType
     {
-        SceneObject = 0, SceneUI = 1
+        SceneProp = 0, SceneUI = 1, general
     }
 
     public enum LoadType
     {
-        Addressables = 0, Inspector = 1, Resources = 2, StreamingAssets = 3
+        Addressables = 1, Inspector = 2, Resources = 3, StreamingAssets = 4
+    }
+
+    public enum SelectableLoadType
+    {
+        Everything = 0, Addressables = 1, Inspector = 2, Resources = 3, StreamingAssets = 4
     }
 
     public enum RuntimePlatform
@@ -34,7 +40,7 @@ namespace Bridge.Core.App.Content.Manager
 
     #endregion
 
-    #region Content Data
+    #region Scriptable Content Data
 
     public class Content : ScriptableObject
     {
@@ -50,7 +56,7 @@ namespace Bridge.Core.App.Content.Manager
         public bool enableOnLoad;
     }
 
-    public class SceneContentLoader : ScriptableObject
+    public class SceneContentLoadData : ScriptableObject
     {
         public string nameTag;
 
@@ -64,6 +70,38 @@ namespace Bridge.Core.App.Content.Manager
         public Description description;
     }
 
+    #region Content Classes
+
+    public class ObjectData : MonoDebug
+    {
+    }
+
+    #endregion
+
+    #region Content Structs
+
+
+    [Serializable]
+    public struct SceneContentLoader
+    {
+        public string nameTag;
+
+        [Space(5)]
+        public SceneContentGroup sceneContentGroup;
+
+        [Space(5)]
+        public SceneContentLoadData sceneContentLoadData;
+
+        [Space(5)]
+        [TextArea]
+        public string description;
+
+        [HideInInspector]
+        public bool contentLoaded;
+    }
+
+    #endregion
+
     #endregion
 
     #region Object
@@ -73,6 +111,7 @@ namespace Bridge.Core.App.Content.Manager
     [Serializable]
     public struct Description
     {
+        [Space(5)]
         public Sprite[] imageTag;
 
         [Space(5)]

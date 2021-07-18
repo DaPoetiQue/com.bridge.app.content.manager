@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Bridge.Core.App.Content.Manager
 {
     [CreateAssetMenu(fileName = "Streaming Data", menuName = "3ridge/Content Load Data/Streaming")]
-    public class StreamingAssetsLoaderData : SceneContentLoader
+    public class StreamingAssetsLoaderData : SceneContentLoadData
     {
         #region Components
 

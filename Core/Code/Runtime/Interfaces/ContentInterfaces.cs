@@ -11,4 +11,9 @@ namespace Bridge.Core.App.Content.Manager
     {
 
     }
+
+    public interface ISceneContent
+    {
+
+    }
 }

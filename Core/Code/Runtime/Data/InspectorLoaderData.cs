@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Bridge.Core.App.Content.Manager
 {
     [CreateAssetMenu(fileName = "Inspector Data", menuName = "3ridge/Content Load Data/Inspector")]
-    public class InspectorLoaderData : SceneContentLoader
+    public class InspectorLoaderData : SceneContentLoadData
     {
         #region Components
 
