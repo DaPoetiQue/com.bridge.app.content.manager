@@ -13,7 +13,7 @@ namespace Bridge.Core.App.Content.Manager
         public InteractionData interactionData;
 
         [Space(5)]
-        public ObjectData contentDescription;
+        public Description contentDescription;
 
         #endregion
     }

@@ -16,6 +16,38 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             window.minSize = new Vector2(400.0f, 450.0f);
         }
 
+        public static void OpenContentLoaderWindow(AddressablesLoaderData loaderData)
+        {
+            ContentLoaderEditorWindow window = GetWindow<ContentLoaderEditorWindow>("3ridge Content Loader");
+            window.minSize = new Vector2(400.0f, 450.0f);
+
+            UpdateWindowToSelectedContent(loaderData);
+        }
+
+        public static void OpenContentLoaderWindow(InspectorLoaderData loaderData)
+        {
+            ContentLoaderEditorWindow window = GetWindow<ContentLoaderEditorWindow>("3ridge Content Loader");
+            window.minSize = new Vector2(400.0f, 450.0f);
+
+            UpdateWindowToSelectedContent(loaderData);
+        }
+
+        public static void OpenContentLoaderWindow(ResourcesLoaderData loaderData)
+        {
+            ContentLoaderEditorWindow window = GetWindow<ContentLoaderEditorWindow>("3ridge Content Loader");
+            window.minSize = new Vector2(400.0f, 450.0f);
+
+            UpdateWindowToSelectedContent(loaderData);
+        }
+
+        public static void OpenContentLoaderWindow(StreamingAssetsLoaderData loaderData)
+        {
+            ContentLoaderEditorWindow window = GetWindow<ContentLoaderEditorWindow>("3ridge Content Loader");
+            window.minSize = new Vector2(400.0f, 450.0f);
+
+            UpdateWindowToSelectedContent(loaderData);
+        }
+
         #endregion
 
         #region Window Layouts
@@ -247,6 +279,14 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     addressablesLoaderData.label = EditorGUILayout.TextField("Addressables Label", addressablesLoaderData.label);
                     GUILayout.Space(10);
 
+                    platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
+                    GUILayout.Space(15);
+
+                    SerializedObject serializedObjectAddressablesDescription = new SerializedObject(addressablesLoaderData);
+                    SerializedProperty serializedPropertyAddressablesDescription = serializedObjectAddressablesDescription.FindProperty("description");
+                    EditorGUILayout.PropertyField(serializedPropertyAddressablesDescription, true);
+                    serializedObjectAddressablesDescription.ApplyModifiedProperties();
+
                     break;
 
                 case LoadType.Inspector:
@@ -261,6 +301,14 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     serializedObjectInspector.ApplyModifiedProperties();
                     GUILayout.Space(10);
 
+                    platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
+                    GUILayout.Space(15);
+
+                    SerializedObject serializedObjectInspectorDescription = new SerializedObject(inspectorLoaderData);
+                    SerializedProperty serializedPropertyInspectorDescription = serializedObjectInspectorDescription.FindProperty("description");
+                    EditorGUILayout.PropertyField(serializedPropertyInspectorDescription, true);
+                    serializedObjectInspectorDescription.ApplyModifiedProperties();
+
                     break;
 
                 case LoadType.Resources:
@@ -271,6 +319,14 @@ namespace Bridge.Core.UnityEditor.Content.Manager
 
                     resourcesLoaderData.path = EditorGUILayout.TextField("Resources Path", resourcesLoaderData.path);
                     GUILayout.Space(10);
+
+                    platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
+                    GUILayout.Space(15);
+
+                    SerializedObject serializedObjectResourcesDescription = new SerializedObject(resourcesLoaderData);
+                    SerializedProperty serializedPropertyResourcesDescription = serializedObjectResourcesDescription.FindProperty("description");
+                    EditorGUILayout.PropertyField(serializedPropertyResourcesDescription, true);
+                    serializedObjectResourcesDescription.ApplyModifiedProperties();
 
                     break;
 
@@ -283,11 +339,16 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     streamingAssetsLoaderData.path = EditorGUILayout.TextField("Streaming Path", streamingAssetsLoaderData.path);
                     GUILayout.Space(10);
 
+                    platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
+                    GUILayout.Space(15);
+
+                    SerializedObject serializedObjectStreamingDescription = new SerializedObject(streamingAssetsLoaderData);
+                    SerializedProperty serializedPropertyStreamingDescription = serializedObjectStreamingDescription.FindProperty("description");
+                    EditorGUILayout.PropertyField(serializedPropertyStreamingDescription, true);
+                    serializedObjectStreamingDescription.ApplyModifiedProperties();
+
                     break;
             }
-
-            platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
-            GUILayout.Space(20);
 
             EditorGUILayout.BeginHorizontal();
 
@@ -375,34 +436,114 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         {
             loaderName = EditorGUILayout.TextField("Loader Name", string.Empty);
 
-            if(reset) loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", LoadType.Addressables);
+            if(reset)
+            {
+                loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", LoadType.Addressables);
+                platform = App.Content.Manager.RuntimePlatform.Any;
+            }
 
             switch (loaderType)
             {
                 case LoadType.Addressables:
 
+                    addressablesLoaderData.nameTag = loaderName;
+                    addressablesLoaderData.loadType = loadType;
+                    addressablesLoaderData.platform = platform;
+
                     addressablesLoaderData.label = EditorGUILayout.TextField("Addressables Label", string.Empty);
+                    addressablesLoaderData.description = new Description();
 
                     break;
 
                 case LoadType.Inspector:
 
+                    inspectorLoaderData.nameTag = loaderName;
+                    inspectorLoaderData.loadType = loadType;
+                    inspectorLoaderData.platform = platform;
+
                     inspectorLoaderData.ContentToLoad = new List<App.Content.Manager.Content>();
+                    inspectorLoaderData.description = new Description();
 
                     break;
 
                 case LoadType.Resources:
 
+                    resourcesLoaderData.nameTag = loaderName;
+                    resourcesLoaderData.loadType = loadType;
+                    resourcesLoaderData.platform = platform;
+
                     resourcesLoaderData.path = EditorGUILayout.TextField("Resources Path", string.Empty);
+                    resourcesLoaderData.description = new Description();
 
                     break;
 
                 case LoadType.StreamingAssets:
 
+                    streamingAssetsLoaderData.nameTag = loaderName;
+                    streamingAssetsLoaderData.loadType = loadType;
+                    streamingAssetsLoaderData.platform = platform;
+
                     streamingAssetsLoaderData.path = EditorGUILayout.TextField("Streaming Path", string.Empty);
+                    streamingAssetsLoaderData.description = new Description();
 
                     break;
             }
+        }
+
+        private static void UpdateWindowToSelectedContent(AddressablesLoaderData loaderData)
+        {
+            loaderName = EditorGUILayout.TextField("Loader Name", loaderData.nameTag);
+            loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", loaderData.loadType);
+            platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
+
+            addressablesLoaderData.nameTag = loaderData.nameTag;
+            addressablesLoaderData.label = EditorGUILayout.TextField("Addressables Label", loaderData.label);
+            addressablesLoaderData.platform = platform;
+            addressablesLoaderData.description = loaderData.description;
+        }
+
+        private static void UpdateWindowToSelectedContent(InspectorLoaderData loaderData)
+        {
+            loaderName = EditorGUILayout.TextField("Loader Name", loaderData.nameTag);
+            loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", loaderData.loadType);
+            platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
+
+            inspectorLoaderData.nameTag = loaderData.nameTag;
+
+            SerializedObject serializedObjectInspector = new SerializedObject(loaderData);
+            SerializedProperty serializedPropertyInspector = serializedObjectInspector.FindProperty("ContentToLoad");
+            EditorGUILayout.PropertyField(serializedPropertyInspector, true);
+            serializedObjectInspector.ApplyModifiedProperties();
+
+            inspectorLoaderData.ContentToLoad = loaderData.ContentToLoad;
+
+
+            inspectorLoaderData.platform = platform;
+            inspectorLoaderData.description = loaderData.description;
+        }
+
+        private static void UpdateWindowToSelectedContent(ResourcesLoaderData loaderData)
+        {
+            loaderName = EditorGUILayout.TextField("Loader Name", loaderData.nameTag);
+            loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", loaderData.loadType);
+            platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
+
+            resourcesLoaderData.nameTag = loaderData.nameTag;
+            resourcesLoaderData.path = EditorGUILayout.TextField("Resources Path", loaderData.path);
+            resourcesLoaderData.platform = platform;
+            resourcesLoaderData.description = loaderData.description;
+        }
+
+        private static void UpdateWindowToSelectedContent(StreamingAssetsLoaderData loaderData)
+        {
+            loaderName = EditorGUILayout.TextField("Loader Name", loaderData.nameTag);
+            loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", loaderData.loadType);
+            platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
+
+            streamingAssetsLoaderData.nameTag = loaderData.nameTag;
+            streamingAssetsLoaderData.path = EditorGUILayout.TextField("Streaming Path", loaderData.path);
+            streamingAssetsLoaderData.platform = platform;
+            streamingAssetsLoaderData.description = loaderData.description;
         }
 
         #endregion

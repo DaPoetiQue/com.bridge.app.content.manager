@@ -59,6 +59,9 @@ namespace Bridge.Core.App.Content.Manager
 
         [Space(5)]
         public RuntimePlatform platform;
+
+        [Space(5)]
+        public Description description;
     }
 
     #endregion
@@ -68,13 +71,13 @@ namespace Bridge.Core.App.Content.Manager
     #region Data
 
     [Serializable]
-    public struct ObjectData
+    public struct Description
     {
-        public Sprite[] thumbnail;
+        public Sprite[] imageTag;
 
         [Space(5)]
         [TextArea]
-        public string description;
+        public string comment;
     }
 
     #endregion
