@@ -263,9 +263,29 @@ namespace Bridge.Core.App.Content.Manager
 
             foreach (Content content in loadedContent)
             {
-                if (content?.prefab)
+                switch(content.contentType)
                 {
-                    await CreateSceneContentTask(content.name, content.contentType, sceneContent, content?.prefab, content.enableOnLoad);
+                    case ContentType.SceneProp:
+
+                        ScenePropData propData = (ScenePropData)content;
+
+                        if (content?.prefab)
+                        {
+                            await CreateSceneContentTask(content.name, content.contentType, sceneContent, content?.prefab, propData.contentDescription.imageTag, content.enableOnLoad);
+                        }
+
+                        break;
+
+                    case ContentType.SceneUI:
+
+                        SceneUIData uiData = (SceneUIData)content;
+
+                        if (content?.prefab)
+                        {
+                            await CreateSceneContentTask(content.name, content.contentType, sceneContent, content?.prefab, null, content.enableOnLoad);
+                        }
+
+                        break;
                 }
             }
 
@@ -285,15 +305,35 @@ namespace Bridge.Core.App.Content.Manager
             sceneContent.loadedGroupIndex = loadedSceneContentGroups.IndexOf(sceneContent);
         }
 
-        private async Task CreateSceneContentTask(string contentName, ContentType contentType, SceneContentGroup sceneContent, GameObject prefab, bool enabled)
+        private async Task CreateSceneContentTask(string contentName, ContentType contentType, SceneContentGroup sceneContent, GameObject prefab, List<Sprite> imageTag, bool enabled)
         {
-            GameObject createdContent = Instantiate(prefab, sceneContent.transform);
+            GameObject createdContent = Instantiate(prefab);
+
+            if (contentType == ContentType.SceneProp)
+            {
+                GameObject sceneProp = new GameObject(contentName + "_Prop Comp");
+                createdContent.transform.SetParent(sceneProp.transform);
+                sceneProp.transform.SetParent(sceneContent.transform);
+
+                SceneProp scenePropComponent = sceneProp.AddComponent<SceneProp>();
+                scenePropComponent.nameTag = contentName;
+                scenePropComponent.asset = createdContent;
+                scenePropComponent.imageTag = imageTag;
+                scenePropComponent.propPose = new Pose() { position = Vector3.zero, rotation = Quaternion.identity };
+            }
+
+            if (contentType == ContentType.SceneUI)
+            {
+                GameObject sceneUI = new GameObject(contentName + "_UI Comp");
+                createdContent.transform.SetParent(sceneUI.transform);
+                sceneUI.transform.SetParent(sceneContent.transform);
+
+                SceneUI sceneUIComponent = sceneUI.AddComponent<SceneUI>();
+            }
+
             createdContent.name = contentName;
 
-            if (contentType == ContentType.SceneProp) createdContent.AddComponent<SceneProp>();
-            if (contentType == ContentType.SceneUI) createdContent.AddComponent<SceneUI>();
-
-            if (!sceneContent.loadedContent.Contains(createdContent.GetComponent<ObjectData>())) sceneContent.loadedContent.Add(createdContent.GetComponent<ObjectData>());
+            if (!sceneContent.loadedContent.Contains(createdContent.GetComponent<ObjectData>())) sceneContent.loadedContent.Add(createdContent.GetComponentInParent<ObjectData>());
 
             createdContent.SetActive(enabled);
 

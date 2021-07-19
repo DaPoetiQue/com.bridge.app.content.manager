@@ -37,6 +37,10 @@ namespace Bridge.Core.App.Content.Manager
         Loading = 0, Menu = 1, Scene = 2
     }
 
+    public enum SceneObjectSpace
+    {
+        Local, World
+    }
 
     #endregion
 
@@ -74,6 +78,11 @@ namespace Bridge.Core.App.Content.Manager
 
     public class ObjectData : MonoDebug
     {
+        [Space(15)]
+        public string nameTag;
+
+        [Space(15)]
+        public GameObject asset;
     }
 
     #endregion
@@ -125,8 +134,9 @@ namespace Bridge.Core.App.Content.Manager
 
     public struct Pose
     {
-        public Transform position;
-        public Transform rotation;
+        public Vector3 position;
+        public Quaternion rotation;
+        public Vector3 scale;
     }
 
     #endregion
