@@ -139,7 +139,58 @@ namespace Bridge.Core.App.Content.Manager
                 }
                 else
                 {
+                    switch(selectLoadType)
+                    {
+                        case SelectableLoadType.Addressables:
 
+                            if (!loader.contentLoaded && loader.sceneContentLoadData.loadType == (LoadType)selectLoadType)
+                            {
+                                LoadAddressablesData(loader.sceneContentGroup, (AddressablesLoaderData)loader.sceneContentLoadData, sceneContentLoader.IndexOf(loader), success =>
+                                {
+                                    contentLoaded.Invoke(success);
+                                });
+                            }
+
+                            break;
+
+                        case SelectableLoadType.Inspector:
+
+                            if (!loader.contentLoaded && loader.sceneContentLoadData.loadType == (LoadType)selectLoadType)
+                            {
+                                LoadInspectorData(loader.sceneContentGroup, (InspectorLoaderData)loader.sceneContentLoadData, sceneContentLoader.IndexOf(loader), success =>
+                                {
+                                    contentLoaded.Invoke(success);
+                                });
+                            }
+
+                            break;
+
+                        case SelectableLoadType.Resources:
+
+                            if (!loader.contentLoaded && loader.sceneContentLoadData.loadType == (LoadType)selectLoadType)
+                            {
+                                LoadResourcesData(loader.sceneContentGroup, (ResourcesLoaderData)loader.sceneContentLoadData, sceneContentLoader.IndexOf(loader), success =>
+                                {
+                                    contentLoaded.Invoke(success);
+                                });
+                            }
+
+                            break;
+
+                        case SelectableLoadType.StreamingAssets:
+
+                            if (!loader.contentLoaded && loader.sceneContentLoadData.loadType == (LoadType)selectLoadType)
+                            {
+                                LoadStreamingData(loader.sceneContentGroup, (StreamingAssetsLoaderData)loader.sceneContentLoadData, sceneContentLoader.IndexOf(loader), success =>
+                                {
+                                    contentLoaded.Invoke(success);
+                                });
+                            }
+
+                            break;
+
+
+                    }
                 }
             }
         }
@@ -271,7 +322,7 @@ namespace Bridge.Core.App.Content.Manager
 
                         if (content?.prefab)
                         {
-                            await CreateSceneContentTask(content.name, content.contentType, sceneContent, content?.prefab, propData.contentDescription.imageTag, content.enableOnLoad);
+                            await CreateSceneContentTask(content.name, content.contentType, sceneContent, content?.prefab, loadedContent.IndexOf(content), propData.contentDescription.imageTag, content.enableOnLoad);
                         }
 
                         break;
@@ -282,7 +333,7 @@ namespace Bridge.Core.App.Content.Manager
 
                         if (content?.prefab)
                         {
-                            await CreateSceneContentTask(content.name, content.contentType, sceneContent, content?.prefab, null, content.enableOnLoad);
+                            await CreateSceneContentTask(content.name, content.contentType, sceneContent, content?.prefab, loadedContent.IndexOf(content), null, content.enableOnLoad);
                         }
 
                         break;
@@ -305,7 +356,7 @@ namespace Bridge.Core.App.Content.Manager
             sceneContent.loadedGroupIndex = loadedSceneContentGroups.IndexOf(sceneContent);
         }
 
-        private async Task CreateSceneContentTask(string contentName, ContentType contentType, SceneContentGroup sceneContent, GameObject prefab, List<Sprite> imageTag, bool enabled)
+        private async Task CreateSceneContentTask(string contentName, ContentType contentType, SceneContentGroup sceneContent, GameObject prefab, int groupIndex, List<Sprite> imageTag, bool enabled)
         {
             GameObject createdContent = Instantiate(prefab);
 
@@ -318,6 +369,7 @@ namespace Bridge.Core.App.Content.Manager
                 SceneProp scenePropComponent = sceneProp.AddComponent<SceneProp>();
                 scenePropComponent.nameTag = contentName;
                 scenePropComponent.asset = createdContent;
+                scenePropComponent.groupIndex = groupIndex;
                 scenePropComponent.imageTag = imageTag;
                 scenePropComponent.propPose = new Pose() { position = Vector3.zero, rotation = Quaternion.identity };
             }

@@ -9,7 +9,7 @@ namespace Bridge.Core.App.Content.Manager
 
     public enum ContentType
     {
-        SceneProp = 0, SceneUI = 1, general
+        SceneProp = 0, SceneUI = 1, AssetBundle = 2
     }
 
     public enum LoadType

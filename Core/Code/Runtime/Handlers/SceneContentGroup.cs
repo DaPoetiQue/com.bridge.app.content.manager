@@ -91,6 +91,19 @@ namespace Bridge.Core.App.Content.Manager
 
         #endregion
 
+        #region Gizmos
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = new Color(255.0f/255.0f, 150.0f/255.0f, 0.0f, 1);
+            Gizmos.DrawWireCube(this.transform.position, this.transform.localScale);
+
+            Gizmos.color = new Color(255.0f / 255.0f, 150.0f / 255.0f, 0.0f, 0.25f);
+            Gizmos.DrawCube(this.transform.position, this.transform.localScale);
+        }
+
+        #endregion
+
         #endregion
     }
 }
