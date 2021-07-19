@@ -319,7 +319,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     resourcesLoaderData.loadType = loadType;
                     resourcesLoaderData.platform = platform;
 
-                    resourcesLoaderData.path = EditorGUILayout.TextField("Resources Path", resourcesLoaderData.path);
+                    resourcesLoaderData.contentDirectory = EditorGUILayout.TextField("Resources Path", resourcesLoaderData.contentDirectory);
                     GUILayout.Space(10);
 
                     platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
@@ -338,7 +338,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     streamingAssetsLoaderData.loadType = loadType;
                     streamingAssetsLoaderData.platform = platform;
 
-                    streamingAssetsLoaderData.path = EditorGUILayout.TextField("Streaming Path", streamingAssetsLoaderData.path);
+                    streamingAssetsLoaderData.contentDirectory = EditorGUILayout.TextField("Streaming Path", streamingAssetsLoaderData.contentDirectory);
                     GUILayout.Space(10);
 
                     platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
@@ -476,7 +476,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     resourcesLoaderData.loadType = loadType;
                     resourcesLoaderData.platform = platform;
 
-                    resourcesLoaderData.path = EditorGUILayout.TextField("Resources Path", string.Empty);
+                    resourcesLoaderData.contentDirectory = EditorGUILayout.TextField("Resources Path", string.Empty);
                     resourcesLoaderData.description = new Description();
 
                     break;
@@ -487,7 +487,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     streamingAssetsLoaderData.loadType = loadType;
                     streamingAssetsLoaderData.platform = platform;
 
-                    streamingAssetsLoaderData.path = EditorGUILayout.TextField("Streaming Path", string.Empty);
+                    streamingAssetsLoaderData.contentDirectory = EditorGUILayout.TextField("Streaming Path", string.Empty);
                     streamingAssetsLoaderData.description = new Description();
 
                     break;
@@ -533,7 +533,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
 
             resourcesLoaderData.nameTag = loaderData.nameTag;
-            resourcesLoaderData.path = EditorGUILayout.TextField("Resources Path", loaderData.path);
+            resourcesLoaderData.contentDirectory = EditorGUILayout.TextField("Resources Path", loaderData.contentDirectory);
             resourcesLoaderData.platform = platform;
             resourcesLoaderData.description = loaderData.description;
         }
@@ -545,7 +545,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
 
             streamingAssetsLoaderData.nameTag = loaderData.nameTag;
-            streamingAssetsLoaderData.path = EditorGUILayout.TextField("Streaming Path", loaderData.path);
+            streamingAssetsLoaderData.contentDirectory = EditorGUILayout.TextField("Streaming Path", loaderData.contentDirectory);
             streamingAssetsLoaderData.platform = platform;
             streamingAssetsLoaderData.description = loaderData.description;
         }

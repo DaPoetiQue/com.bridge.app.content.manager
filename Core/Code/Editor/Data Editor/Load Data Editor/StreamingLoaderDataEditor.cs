@@ -15,13 +15,14 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             GUILayout.Space(15);
 
             StreamingAssetsLoaderData content = (StreamingAssetsLoaderData)target;
+            content.loadType = LoadType.StreamingAssets;
 
             string name = (string.IsNullOrEmpty(content.nameTag)) ? content.name : content.nameTag;
 
             content.nameTag = EditorGUILayout.TextField("Loader Name", name);
             GUILayout.Space(10);
 
-            content.path = EditorGUILayout.TextField("Streaming Path", content.path);
+            content.contentDirectory = EditorGUILayout.TextField("Streaming Path", content.contentDirectory);
             GUILayout.Space(10);
 
             content.platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", content.platform);

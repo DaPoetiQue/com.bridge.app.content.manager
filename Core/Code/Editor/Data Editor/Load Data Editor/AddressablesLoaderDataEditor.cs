@@ -15,6 +15,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             GUILayout.Space(15);
 
             AddressablesLoaderData content = (AddressablesLoaderData)target;
+            content.loadType = LoadType.Addressables;
 
             string name = (string.IsNullOrEmpty(content.nameTag)) ? content.name : content.nameTag;
 

@@ -15,13 +15,14 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             GUILayout.Space(10);
 
             ResourcesLoaderData content = (ResourcesLoaderData)target;
+            content.loadType = LoadType.Resources;
 
             string name = (string.IsNullOrEmpty(content.nameTag)) ? content.name : content.nameTag;
 
             content.nameTag = EditorGUILayout.TextField("Loader Name", name);
             GUILayout.Space(10);
 
-            content.path = EditorGUILayout.TextField("Resource Path", content.path);
+            content.contentDirectory = EditorGUILayout.TextField("Resource Path", content.contentDirectory);
             GUILayout.Space(10);
 
             content.platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", content.platform);

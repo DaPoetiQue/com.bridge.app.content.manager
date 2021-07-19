@@ -8,7 +8,7 @@ namespace Bridge.Core.App.Content.Manager
         #region Components
 
         [Space(5)]
-        public string path;
+        public string contentDirectory;
 
         #endregion
     }

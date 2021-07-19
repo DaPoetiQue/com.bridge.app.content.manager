@@ -15,6 +15,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             GUILayout.Space(15);
 
             InspectorLoaderData content = (InspectorLoaderData)target;
+            content.loadType = LoadType.Inspector;
 
             string name = (string.IsNullOrEmpty(content.nameTag)) ? content.name : content.nameTag;
 
