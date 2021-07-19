@@ -28,7 +28,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             serializedObjectInspector.ApplyModifiedProperties();
             GUILayout.Space(10);
 
-            content.platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", content.platform);
+            content.platform = (App.Content.Manager.Platform)EditorGUILayout.EnumPopup("Runtime Platform", content.platform);
             GUILayout.Space(10);
 
             SerializedObject serializedObjectInfo = new SerializedObject(content);

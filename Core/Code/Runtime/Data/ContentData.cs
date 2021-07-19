@@ -9,7 +9,7 @@ namespace Bridge.Core.App.Content.Manager
 
     public enum ContentType
     {
-        SceneProp = 0, SceneUI = 1, AssetBundle = 2
+        SceneProp = 0, SceneUI = 1, SceneAssetBundle = 2
     }
 
     public enum LoadType
@@ -22,9 +22,9 @@ namespace Bridge.Core.App.Content.Manager
         Everything = 0, Addressables = 1, Inspector = 2, Resources = 3, StreamingAssets = 4
     }
 
-    public enum RuntimePlatform
+    public enum Platform
     {
-        Any, Android, iOS, MacOSStandalone, WindowsStandalone, Editor
+        Any, Android, iOS, LinuxStandalone, MacOSStandalone, WindowsStandalone, Editor
     }
 
     public enum UIType
@@ -68,7 +68,7 @@ namespace Bridge.Core.App.Content.Manager
         public LoadType loadType;
 
         [Space(5)]
-        public RuntimePlatform platform;
+        public Platform platform;
 
         [Space(5)]
         public Description description;

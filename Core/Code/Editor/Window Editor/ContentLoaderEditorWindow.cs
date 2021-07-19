@@ -98,7 +98,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         #region Settings
 
         private static LoadType loadType;
-        private static App.Content.Manager.RuntimePlatform platform;
+        private static App.Content.Manager.Platform platform;
 
         #endregion
 
@@ -281,7 +281,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     addressablesLoaderData.label = EditorGUILayout.TextField("Addressables Label", addressablesLoaderData.label);
                     GUILayout.Space(10);
 
-                    platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
+                    platform = (App.Content.Manager.Platform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
                     GUILayout.Space(15);
 
                     SerializedObject serializedObjectAddressablesDescription = new SerializedObject(addressablesLoaderData);
@@ -303,7 +303,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     serializedObjectInspector.ApplyModifiedProperties();
                     GUILayout.Space(10);
 
-                    platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
+                    platform = (App.Content.Manager.Platform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
                     GUILayout.Space(15);
 
                     SerializedObject serializedObjectInspectorDescription = new SerializedObject(inspectorLoaderData);
@@ -322,7 +322,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     resourcesLoaderData.contentDirectory = EditorGUILayout.TextField("Resources Path", resourcesLoaderData.contentDirectory);
                     GUILayout.Space(10);
 
-                    platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
+                    platform = (App.Content.Manager.Platform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
                     GUILayout.Space(15);
 
                     SerializedObject serializedObjectResourcesDescription = new SerializedObject(resourcesLoaderData);
@@ -341,7 +341,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
                     streamingAssetsLoaderData.contentDirectory = EditorGUILayout.TextField("Streaming Path", streamingAssetsLoaderData.contentDirectory);
                     GUILayout.Space(10);
 
-                    platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
+                    platform = (App.Content.Manager.Platform)EditorGUILayout.EnumPopup("Runtime Platform", platform);
                     GUILayout.Space(15);
 
                     SerializedObject serializedObjectStreamingDescription = new SerializedObject(streamingAssetsLoaderData);
@@ -443,7 +443,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
             if(reset)
             {
                 loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", LoadType.Addressables);
-                platform = App.Content.Manager.RuntimePlatform.Any;
+                platform = App.Content.Manager.Platform.Any;
             }
 
             switch (loaderType)
@@ -498,7 +498,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         {
             loaderName = EditorGUILayout.TextField("Loader Name", loaderData.nameTag);
             loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", loaderData.loadType);
-            platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
+            platform = (App.Content.Manager.Platform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
 
             addressablesLoaderData.nameTag = loaderData.nameTag;
             addressablesLoaderData.label = EditorGUILayout.TextField("Addressables Label", loaderData.label);
@@ -510,7 +510,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         {
             loaderName = EditorGUILayout.TextField("Loader Name", loaderData.nameTag);
             loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", loaderData.loadType);
-            platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
+            platform = (App.Content.Manager.Platform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
 
             inspectorLoaderData.nameTag = loaderData.nameTag;
 
@@ -530,7 +530,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         {
             loaderName = EditorGUILayout.TextField("Loader Name", loaderData.nameTag);
             loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", loaderData.loadType);
-            platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
+            platform = (App.Content.Manager.Platform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
 
             resourcesLoaderData.nameTag = loaderData.nameTag;
             resourcesLoaderData.contentDirectory = EditorGUILayout.TextField("Resources Path", loaderData.contentDirectory);
@@ -542,7 +542,7 @@ namespace Bridge.Core.UnityEditor.Content.Manager
         {
             loaderName = EditorGUILayout.TextField("Loader Name", loaderData.nameTag);
             loadType = (LoadType)EditorGUILayout.EnumPopup("Loader Type", loaderData.loadType);
-            platform = (App.Content.Manager.RuntimePlatform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
+            platform = (App.Content.Manager.Platform)EditorGUILayout.EnumPopup("Runtime Platform", loaderData.platform);
 
             streamingAssetsLoaderData.nameTag = loaderData.nameTag;
             streamingAssetsLoaderData.contentDirectory = EditorGUILayout.TextField("Streaming Path", loaderData.contentDirectory);
