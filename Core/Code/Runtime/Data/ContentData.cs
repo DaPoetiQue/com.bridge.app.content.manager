@@ -112,7 +112,7 @@ namespace Bridge.Core.App.Content.Manager
     public struct Description
     {
         [Space(5)]
-        public Sprite[] imageTag;
+        public List<Sprite> imageTag;
 
         [Space(5)]
         [TextArea]

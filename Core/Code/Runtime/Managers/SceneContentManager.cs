@@ -166,7 +166,7 @@ namespace Bridge.Core.App.Content.Manager
                 return;
             }
 
-            CreateSceneContent(loaderData.nameTag, sceneContent, loadedContent, created =>
+            CreateSceneContent(loaderData.nameTag, sceneContent, loadedContent, loaderData.description.imageTag, created =>
             {
                 callBack.Invoke(created);
             });
@@ -182,7 +182,7 @@ namespace Bridge.Core.App.Content.Manager
                 return;
             }
 
-            CreateSceneContent(loaderData.nameTag, sceneContent, loaderData.ContentToLoad, created =>
+            CreateSceneContent(loaderData.nameTag, sceneContent, loaderData.ContentToLoad, loaderData.description.imageTag, created =>
             {
                 callBack.Invoke(created);
             });
@@ -209,7 +209,7 @@ namespace Bridge.Core.App.Content.Manager
                 return;
             }
 
-            CreateSceneContent(loaderData.nameTag, sceneContent, loadedContent, created => 
+            CreateSceneContent(loaderData.nameTag, sceneContent, loadedContent, loaderData.description.imageTag, created => 
             {
                 callBack.Invoke(created);
             });
@@ -257,9 +257,9 @@ namespace Bridge.Core.App.Content.Manager
 
         #region Create Scene Content
 
-        private async void CreateSceneContent(string nameTag, SceneContentGroup sceneContent, List<Content> loadedContent, Action<bool> callBack)
+        private async void CreateSceneContent(string nameTag, SceneContentGroup sceneContent, List<Content> loadedContent, List<Sprite> imageTage, Action<bool> callBack)
         {
-            sceneContent.contentCount = loadedContent.Count;
+            sceneContent.loadedContentCount = loadedContent.Count;
 
             foreach (Content content in loadedContent)
             {
@@ -269,7 +269,7 @@ namespace Bridge.Core.App.Content.Manager
                 }
             }
 
-            if (sceneContent.loadedContent.Count != sceneContent.contentCount)
+            if (sceneContent.loadedContent.Count != sceneContent.loadedContentCount)
             {
                 Log(LogData.LogLevel.Warning, this, $"[ {nameTag} ] content not fully loaded.");
                 return;
@@ -280,6 +280,9 @@ namespace Bridge.Core.App.Content.Manager
                 loadedSceneContentGroups.Add(sceneContent);
                 callBack.Invoke(true);
             }
+
+            sceneContent.imageTag = imageTage;
+            sceneContent.loadedGroupIndex = loadedSceneContentGroups.IndexOf(sceneContent);
         }
 
         private async Task CreateSceneContentTask(string contentName, ContentType contentType, SceneContentGroup sceneContent, GameObject prefab, bool enabled)
