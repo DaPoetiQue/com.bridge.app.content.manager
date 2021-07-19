@@ -23,22 +23,14 @@ namespace Bridge.Core.App.Content.Manager
         [Space(5)]
         [SerializeField]
         private List<SceneContentLoader> sceneContentLoader = new List<SceneContentLoader>();
-        private int sceneContentCount = 0;
-        private List<SceneContentGroup> loadedSceneContentGroups = new List<SceneContentGroup>();
 
-        private bool isLoadingContentData;
-
-        private ContentLoader contentLoader = new ContentLoader();
-
-        private float minLoadTimeOut = 2.0f, maxLoadTimeOut = 4.0f;
-
-        private float timeOut = 0.0f;
-
+        [Space(5)]
+        [SerializeField]
         private AppEventsData.AppViewState initialAppView;
 
-        public IList<IResourceLocation> ResourceLocations = new List<IResourceLocation>();
-
-        private bool isAppContentLoaded = false;
+        private List<SceneContentGroup> loadedSceneContentGroups = new List<SceneContentGroup>();
+        private int sceneContentCount = 0;
+        private float timeOut = 0.0f;
 
         #endregion
 
