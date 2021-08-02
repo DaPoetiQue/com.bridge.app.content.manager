@@ -62,7 +62,7 @@ namespace Bridge.Core.App.Content.Manager
 
             LoadContentData(initialAppView, success => 
             {
-                Log(LogData.LogLevel.Success, this, $"Scene content load completed : {sceneContentCount} content(s) found.");
+                Log(LogLevel.Success, this, $"Scene content load completed : {sceneContentCount} content(s) found.");
             });
         }
 
@@ -72,7 +72,7 @@ namespace Bridge.Core.App.Content.Manager
             {
                 if(loader.sceneContentGroup == null)
                 {
-                    Log(LogData.LogLevel.Error, this, $"There is no Scene Content object assigned for content loader {loader.nameTag}. At index {sceneContentLoader.IndexOf(loader)}");
+                    Log(LogLevel.Error, this, $"There is no Scene Content object assigned for content loader {loader.nameTag}. At index {sceneContentLoader.IndexOf(loader)}");
                     return;
                 }
 
@@ -193,7 +193,7 @@ namespace Bridge.Core.App.Content.Manager
         {
             if(string.IsNullOrEmpty(loaderData.label))
             {
-                Log(LogData.LogLevel.Error, this, $"[ Addressables Load Data ] label not assigned for loader at index : {loaderQueueID}.");
+                Log(LogLevel.Error, this, $"[ Addressables Load Data ] label not assigned for loader at index : {loaderQueueID}.");
                 return;
             }
 
@@ -205,7 +205,7 @@ namespace Bridge.Core.App.Content.Manager
 
             if (loadedContent.Count <= 0)
             {
-                Log(LogData.LogLevel.Error, this, $"[ Addressables Load Data ] Content not found using label {loaderData.label}. Failed to load content at index : {loaderQueueID}.");
+                Log(LogLevel.Error, this, $"[ Addressables Load Data ] Content not found using label {loaderData.label}. Failed to load content at index : {loaderQueueID}.");
                 return;
             }
 
@@ -221,7 +221,7 @@ namespace Bridge.Core.App.Content.Manager
 
             if(loaderData.ContentToLoad.Count <= 0)
             {
-                Log(LogData.LogLevel.Error, this, $"[ Inspector Load Data ] There is no Content To Load data assigned in the inspector at index : {loaderQueueID}.");
+                Log(LogLevel.Error, this, $"[ Inspector Load Data ] There is no Content To Load data assigned in the inspector at index : {loaderQueueID}.");
                 return;
             }
 
@@ -233,11 +233,11 @@ namespace Bridge.Core.App.Content.Manager
 
         private void LoadResourcesData(SceneContentGroup sceneContent, ResourcesLoaderData loaderData, int loaderQueueID, Action<bool> callBack)
         {
-            Log(LogData.LogLevel.Debug, this, $"Loading [ Resources Load Data ] at index : {loaderQueueID}.");
+            Log(LogLevel.Debug, this, $"Loading [ Resources Load Data ] at index : {loaderQueueID}.");
 
             if (string.IsNullOrEmpty(loaderData.contentDirectory))
             {
-                Log(LogData.LogLevel.Error, this, $"Content directory missing/not assigned for [ Resources Load Data ] at index : {loaderQueueID}.");
+                Log(LogLevel.Error, this, $"Content directory missing/not assigned for [ Resources Load Data ] at index : {loaderQueueID}.");
                 return;
             }
 
@@ -248,7 +248,7 @@ namespace Bridge.Core.App.Content.Manager
 
             if (loadedContent.Count <= 0)
             {
-                Log(LogData.LogLevel.Error, this, $"[ Streaming Assets Load Data ] Content not found at directory : {loaderData.contentDirectory}. Failed to load content at index : {loaderQueueID}.");
+                Log(LogLevel.Error, this, $"[ Streaming Assets Load Data ] Content not found at directory : {loaderData.contentDirectory}. Failed to load content at index : {loaderQueueID}.");
                 return;
             }
 
@@ -263,7 +263,7 @@ namespace Bridge.Core.App.Content.Manager
 
             if (string.IsNullOrEmpty(loaderData.contentDirectory))
             {
-                Log(LogData.LogLevel.Error, this, $"Content directory missing/not assigned for [ Streaming Assets Load Data ] at index : {loaderQueueID}.");
+                Log(LogLevel.Error, this, $"Content directory missing/not assigned for [ Streaming Assets Load Data ] at index : {loaderQueueID}.");
                 return;
             }
 
@@ -283,7 +283,7 @@ namespace Bridge.Core.App.Content.Manager
 
             if(loadedContent == null)
             {
-                Log(LogData.LogLevel.Error, this, $"Downloading [ Streaming Assets Data ]. From directory : {directory} Failed.");
+                Log(LogLevel.Error, this, $"Downloading [ Streaming Assets Data ]. From directory : {directory} Failed.");
             }
 
             yield return null;
@@ -334,7 +334,7 @@ namespace Bridge.Core.App.Content.Manager
 
             if (sceneContent.loadedContent.Count != sceneContent.loadedContentCount)
             {
-                Log(LogData.LogLevel.Warning, this, $"[ {nameTag} ] content not fully loaded.");
+                Log(LogLevel.Warning, this, $"[ {nameTag} ] content not fully loaded.");
                 return;
             }
 
@@ -394,7 +394,7 @@ namespace Bridge.Core.App.Content.Manager
 
         private IEnumerator OnLoad(AppEventsData.AppViewState appView)
         {
-            Log(LogData.LogLevel.Debug, this, "Content started loading.");
+            Log(LogLevel.Debug, this, "Content started loading.");
 
             while(timeOut > 0.0f)
             {
@@ -403,7 +403,7 @@ namespace Bridge.Core.App.Content.Manager
                 yield return null;
             }
 
-            Log(LogData.LogLevel.Success, this, "Content loading has completed.");
+            Log(LogLevel.Success, this, "Content loading has completed.");
 
             EventsManager.Instance.OnAppViewChangedEvent.Invoke(appView);
 
@@ -424,7 +424,7 @@ namespace Bridge.Core.App.Content.Manager
 
             LoadContentData(appView, loaded => 
             {
-                Log(LogData.LogLevel.Success, this, "Content load completed with no errors.");
+                Log(LogLevel.Success, this, "Content load completed with no errors.");
             });
         }
 

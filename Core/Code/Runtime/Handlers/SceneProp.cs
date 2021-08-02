@@ -24,7 +24,7 @@ namespace Bridge.Core.App.Content.Manager
         {
             if(string.IsNullOrEmpty(nameTag))
             {
-                Log(LogData.LogLevel.Warning, this, $"Scene Prop name missing/not assigned. Returning default name : {name}");
+                Log(LogLevel.Warning, this, $"Scene Prop name missing/not assigned. Returning default name : {name}");
                 return name;
             }
 
@@ -35,7 +35,7 @@ namespace Bridge.Core.App.Content.Manager
         {
             if(imageTag.Count <= 0)
             {
-                Log(LogData.LogLevel.Warning, this, $"There are no Scene Prop image tag(s) assigned for : {nameTag}. Returning null");
+                Log(LogLevel.Warning, this, $"There are no Scene Prop image tag(s) assigned for : {nameTag}. Returning null");
                 return null;
             }
 

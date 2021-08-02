@@ -33,7 +33,7 @@ namespace Bridge.Core.App.Content.Manager
         {
             if(string.IsNullOrEmpty(groupName))
             {
-                Log(LogData.LogLevel.Debug, this, $"Group Name Missing/Not Assigned. Returning Default Name : {name}");
+                Log(LogLevel.Debug, this, $"Group Name Missing/Not Assigned. Returning Default Name : {name}");
                 return name;
             }
 
@@ -49,13 +49,13 @@ namespace Bridge.Core.App.Content.Manager
         {
             if(loadedContent.Count <= 0)
             {
-                Log(LogData.LogLevel.Error, this, $"There is no Group Content found.");
+                Log(LogLevel.Error, this, $"There is no Group Content found.");
                 return null;
             }
 
             if(objectIndex > loadedContent.Count)
             {
-                Log(LogData.LogLevel.Error, this, $"Content index : {objectIndex} for getting Group Content is out of range.");
+                Log(LogLevel.Error, this, $"Content index : {objectIndex} for getting Group Content is out of range.");
                 return null;
             }
 
@@ -66,7 +66,7 @@ namespace Bridge.Core.App.Content.Manager
         {
             if (loadedContent.Count <= 0)
             {
-                Log(LogData.LogLevel.Error, this, $"There is no Group Content found. Returning null.");
+                Log(LogLevel.Error, this, $"There is no Group Content found. Returning null.");
                 return null;
             }
 
@@ -77,7 +77,7 @@ namespace Bridge.Core.App.Content.Manager
         {
             if (loadedContent.Count <= 0)
             {
-                Log(LogData.LogLevel.Warning, this, $"There is no Group Content found. Returning 0.");
+                Log(LogLevel.Warning, this, $"There is no Group Content found. Returning 0.");
                 return 0;
             }
 
