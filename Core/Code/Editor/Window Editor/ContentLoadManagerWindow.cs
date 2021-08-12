@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace Bridge.Core.App.Content.Editor
+namespace Bridge.Core.UnityEditor.Content.Manager
 {
     public class ContentLoadManagerWindow : EditorWindow
     {
