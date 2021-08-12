@@ -1,15 +1,11 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Core/Code/Editor/Data Editor/SceneObjectDataEditor.cs.meta
-guid: c48e9afd646a06f4cb9a90aa6795a3ef
-=======
-guid: 9c9892a81334a5a46be987b7908673fc
->>>>>>> 107b66fe270f0597aba1222dac05d5b1ef666344:Core/Code/Editor/ContentLoadManagerWindow.cs.meta
+guid: b652d17b16c4b2c4fba3fe3074b83762
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences: []
   executionOrder: 0
-  icon: {fileID: 2800000, guid: f9c8c39790a3d7947bc4dcb30b33d985, type: 3}
+  icon: {fileID: 2800000, guid: e04068f1045de7c45b9d90ece461ba92, type: 3}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
